@@ -74,51 +74,61 @@ export default function GrantCard({ grant, onApplicationSuccess }: GrantCardProp
 
   return (
     <>
-      <Card className="hover:shadow-xl transition-shadow">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between mb-4">
+      <Card className="bg-white border border-gray-200 hover:shadow-lg transition-all duration-200 rounded-lg">
+        <CardContent className="p-5">
+          <div className="flex items-start justify-between mb-4">
             <div className="flex items-center space-x-2">
-              <span className="bg-oimf-blue text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
-                <span className="mr-1">{grant.countries?.flag}</span>
-                {grant.countries?.name}
+              <span className="text-xs text-gray-500 uppercase tracking-wide flex items-center">
+                {grant.countries?.flag} {grant.countries?.code}
               </span>
-              <span className={`${getCategoryColor(grant.category)} text-white px-2 py-1 rounded text-xs capitalize`}>
+              <span className={`${getCategoryColor(grant.category)} text-white px-2 py-1 rounded text-xs font-medium capitalize`}>
                 {grant.category.replace('_', ' ')}
               </span>
             </div>
-            <span className="text-oimf-gold font-bold text-lg">
-              {formatAmount(grant)}
-            </span>
-          </div>
-          
-          <h4 className="text-xl font-bold text-gray-900 mb-3">{grant.title}</h4>
-          <p className="text-gray-600 mb-4 line-clamp-3">{grant.description}</p>
-          
-          <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-            <span className="flex items-center">
-              <Calendar className="mr-1 h-4 w-4" />
-              Deadline: {formatDeadline(grant.deadline)}
-            </span>
-            <span className="flex items-center">
-              <Users className="mr-1 h-4 w-4" />
-              {grant.availableSpots} spots
-            </span>
-          </div>
-          
-          <div className="mb-4">
-            <div className="flex justify-between text-sm text-gray-600 mb-2">
-              <span>Applications processed</span>
-              <span>{Math.round(progressPercentage)}%</span>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-amber-600">
+                {formatAmount(grant)}
+              </div>
             </div>
-            <Progress 
-              value={progressPercentage} 
-              className="h-2"
-            />
+          </div>
+          
+          <h3 className="text-lg font-semibold text-gray-900 mb-3 leading-tight">
+            {grant.title}
+          </h3>
+          
+          <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+            {grant.description}
+          </p>
+          
+          <div className="space-y-3 mb-4">
+            <div className="flex items-center justify-between text-xs">
+              <div className="flex items-center text-gray-500">
+                <Calendar className="h-3 w-3 mr-1" />
+                <span>Deadline: {formatDeadline(grant.deadline)}</span>
+              </div>
+              <div className="flex items-center text-gray-500">
+                <Users className="h-3 w-3 mr-1" />
+                <span>{grant.availableSpots} spots</span>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-gray-500">Applications processed</span>
+                <span className="font-medium text-gray-700">{Math.round(progressPercentage)}%</span>
+              </div>
+              <div className="w-full bg-gray-100 rounded-full h-1.5">
+                <div 
+                  className="bg-gray-800 h-full rounded-full transition-all duration-300"
+                  style={{ width: `${progressPercentage}%` }}
+                />
+              </div>
+            </div>
           </div>
           
           <Button 
             onClick={() => setShowApplicationModal(true)}
-            className="w-full bg-oimf-gold text-gray-900 hover:bg-oimf-light-gold transition-colors font-semibold"
+            className="w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-2.5 rounded-lg transition-colors"
             disabled={grant.availableSpots === 0}
           >
             {grant.availableSpots === 0 ? 'No Spots Available' : 'Apply Now'}

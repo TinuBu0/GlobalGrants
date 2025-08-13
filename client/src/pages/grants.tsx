@@ -179,11 +179,11 @@ export default function Grants() {
               Total funding available: {new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: 'USD',
-                notation: 'compact',
-                maximumFractionDigits: 1,
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
               }).format(
                 filteredGrants.reduce((sum, grant) => {
-                  const amount = grant.amount ? parseFloat(grant.amount) : 0;
+                  const amount = grant.amount ? parseFloat(grant.amount) : (grant.maxAmount ? parseFloat(grant.maxAmount) : 0);
                   return sum + amount;
                 }, 0)
               )}
