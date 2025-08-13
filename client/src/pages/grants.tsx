@@ -30,12 +30,13 @@ export default function Grants() {
     const matchesSearch = !searchTerm || 
       grant.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       grant.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      grant.country?.name.toLowerCase().includes(searchTerm.toLowerCase());
+      grant.countries?.name.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesCountry = !filters.country || grant.countryId === filters.country;
     const matchesCategory = !filters.category || grant.category === filters.category;
     
     const matchesAmount = !filters.amount || (() => {
+      if (!grant.amount) return true;
       const amount = parseFloat(grant.amount);
       switch (filters.amount) {
         case 'under-10k': return amount < 10000;
@@ -181,7 +182,10 @@ export default function Grants() {
                 notation: 'compact',
                 maximumFractionDigits: 1,
               }).format(
-                filteredGrants.reduce((sum, grant) => sum + parseFloat(grant.amount), 0)
+                filteredGrants.reduce((sum, grant) => {
+                  const amount = grant.amount ? parseFloat(grant.amount) : 0;
+                  return sum + amount;
+                }, 0)
               )}
             </div>
           )}

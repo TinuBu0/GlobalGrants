@@ -16,14 +16,28 @@ export default function GrantCard({ grant, onApplicationSuccess }: GrantCardProp
   
   const progressPercentage = ((grant.totalSpots - grant.availableSpots) / grant.totalSpots) * 100;
   
-  const formatCurrency = (amount: string, currency: string) => {
-    const num = parseFloat(amount);
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: currency,
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(num);
+  const formatAmount = (grant: GrantWithCountry) => {
+    if (grant.amountType === 'range' && grant.minAmount && grant.maxAmount) {
+      const min = parseFloat(grant.minAmount);
+      const max = parseFloat(grant.maxAmount);
+      const formatNum = (num: number) => new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: grant.currency,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(num);
+      return `${formatNum(min)} - ${formatNum(max)}`;
+    } else if (grant.amount) {
+      const num = parseFloat(grant.amount);
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: grant.currency,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(num);
+    } else {
+      return 'Amount varies';
+    }
   };
 
   const formatDeadline = (deadline: Date | null) => {
@@ -38,10 +52,15 @@ export default function GrantCard({ grant, onApplicationSuccess }: GrantCardProp
   const getCategoryColor = (category: string) => {
     const colors = {
       education: 'bg-blue-500',
-      business: 'bg-green-500',
+      business: 'bg-green-500', 
       healthcare: 'bg-red-500',
       housing: 'bg-purple-500',
       emergency: 'bg-orange-500',
+      seniors: 'bg-indigo-500',
+      research: 'bg-pink-500',
+      innovation: 'bg-teal-500',
+      homebuyer: 'bg-violet-500',
+      financial_relief: 'bg-amber-500',
     };
     return colors[category as keyof typeof colors] || 'bg-gray-500';
   };
@@ -60,15 +79,15 @@ export default function GrantCard({ grant, onApplicationSuccess }: GrantCardProp
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
               <span className="bg-oimf-blue text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
-                <span className="mr-1">{grant.country?.flag}</span>
-                {grant.country?.name}
+                <span className="mr-1">{grant.countries?.flag}</span>
+                {grant.countries?.name}
               </span>
-              <span className={`${getCategoryColor(grant.category)} text-white px-2 py-1 rounded text-xs`}>
-                {grant.category}
+              <span className={`${getCategoryColor(grant.category)} text-white px-2 py-1 rounded text-xs capitalize`}>
+                {grant.category.replace('_', ' ')}
               </span>
             </div>
             <span className="text-oimf-gold font-bold text-lg">
-              {formatCurrency(grant.amount, grant.currency)}
+              {formatAmount(grant)}
             </span>
           </div>
           

@@ -45,7 +45,12 @@ export const grantCategoryEnum = pgEnum('grant_category', [
   'business', 
   'healthcare',
   'housing',
-  'emergency'
+  'emergency',
+  'seniors',
+  'research',
+  'innovation',
+  'homebuyer',
+  'financial_relief'
 ]);
 
 // Grant status enum
@@ -83,8 +88,11 @@ export const grants = pgTable("grants", {
   description: text("description").notNull(),
   category: grantCategoryEnum("category").notNull(),
   countryId: varchar("country_id").notNull().references(() => countries.id),
-  amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
+  minAmount: decimal("min_amount", { precision: 12, scale: 2 }),
+  maxAmount: decimal("max_amount", { precision: 12, scale: 2 }),
+  amount: decimal("amount", { precision: 12, scale: 2 }),
   currency: varchar("currency", { length: 3 }).notNull(),
+  amountType: varchar("amount_type").default('flexible'), // 'fixed', 'range', 'flexible'
   totalSpots: integer("total_spots").notNull(),
   availableSpots: integer("available_spots").notNull(),
   deadline: timestamp("deadline"),
@@ -238,6 +246,7 @@ export type InsertGrantAward = z.infer<typeof insertGrantAwardSchema>;
 // Extended types for joined data
 export type GrantWithCountry = Grant & {
   countries: Country | null;
+  country?: Country | null; // For backward compatibility
 };
 
 export type ApplicationWithDetails = Application & {
