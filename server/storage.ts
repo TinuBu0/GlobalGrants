@@ -26,7 +26,7 @@ import { eq, and, desc, asc, count, sql } from "drizzle-orm";
 export interface IStorage {
   // User operations
   getUser(id: string): Promise<User | undefined>;
-  upsertUser(user: UpsertUser): Promise<User>;
+  upsertUser(id: string, userData: UpsertUser): Promise<User>;
   
   // Country operations
   getAllCountries(): Promise<Country[]>;
@@ -74,10 +74,13 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async upsertUser(userData: UpsertUser): Promise<User> {
+  async upsertUser(id: string, userData: UpsertUser): Promise<User> {
     const [user] = await db
       .insert(users)
-      .values(userData)
+      .values({
+        ...userData,
+        id,
+      })
       .onConflictDoUpdate({
         target: users.id,
         set: {
