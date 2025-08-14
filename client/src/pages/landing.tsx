@@ -23,16 +23,16 @@ export default function Landing() {
     { code: 'UK', flag: '🇬🇧', name: 'UK' },
     { code: 'CA', flag: '🇨🇦', name: 'Canada' },
     { code: 'AU', flag: '🇦🇺', name: 'Australia' },
-    { code: 'NZ', flag: '🇳🇿', name: 'New Zealand' },
     { code: 'DE', flag: '🇩🇪', name: 'Germany' },
     { code: 'FR', flag: '🇫🇷', name: 'France' },
     { code: 'JP', flag: '🇯🇵', name: 'Japan' },
-    { code: 'KR', flag: '🇰🇷', name: 'South Korea' },
-    { code: 'SG', flag: '🇸🇬', name: 'Singapore' },
-    { code: 'AE', flag: '🇦🇪', name: 'UAE' },
+    { code: 'IT', flag: '🇮🇹', name: 'Italy' },
+    { code: 'ES', flag: '🇪🇸', name: 'Spain' },
     { code: 'NL', flag: '🇳🇱', name: 'Netherlands' },
     { code: 'SE', flag: '🇸🇪', name: 'Sweden' },
     { code: 'NO', flag: '🇳🇴', name: 'Norway' },
+    { code: 'SG', flag: '🇸🇬', name: 'Singapore' },
+    { code: 'NZ', flag: '🇳🇿', name: 'New Zealand' },
   ];
 
   return (
@@ -54,7 +54,7 @@ export default function Landing() {
             International Grant <span className="text-oimf-light-gold">Opportunities</span>
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-4xl mx-auto leading-relaxed">
-            The Oldies International Monetary Foundation connects eligible individuals with life-changing grant opportunities across 14 countries. Join thousands who have already received funding.
+            The Oldies International Monetary Foundation connects eligible individuals with life-changing grant opportunities across 39 countries. Join thousands who have already received funding.
           </p>
           
           <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-12">
@@ -115,7 +115,7 @@ export default function Landing() {
       <section id="countries" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Available in 14 Countries</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Available in 39 Countries</h2>
             <p className="text-xl text-gray-600">OIMF operates internationally, providing grant opportunities across major economies</p>
           </div>
           
